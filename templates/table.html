@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Amount</th>
+        <th>Txid</th>
+        <th>Address</th>
+        <th>Confirmations</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tx in transactions | sort(attribute='time', reverse = True) %}
+        <tr>
+          <td>{{ tx.time|strftime("%Y-%m-%d %H:%S %Z") }}</td>
+          <td>{{ '%0.6f'|format(tx.amount|float) }}</td>
+		  <td><a href="https://blockstream.info/testnet/tx/{{ tx.txid }}" target="_blank">{{ tx.txid }}</a></td>
+		  <td><a href="https://blockstream.info/testnet/address/{{ tx.address }}" target="_blank">{{ tx.address }}</a></td>
+          <td>{{ tx.confirmations }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
